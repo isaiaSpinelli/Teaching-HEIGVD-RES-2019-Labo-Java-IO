@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 public class FileNumberingFilterWriter extends FilterWriter {
 
   private int numberOfLine = 1;
+  private boolean newLine = false;
 
   private static final Logger LOG = Logger.getLogger(FileNumberingFilterWriter.class.getName());
 
@@ -46,13 +47,21 @@ public class FileNumberingFilterWriter extends FilterWriter {
       super.write(numberOfLine++ + 48);
       super.write('\t');
     }
-      super.write(c);
 
-      if (c == '\n'){
-        String num = String.valueOf(numberOfLine++);
-        super.write(num,0,num.length());
-        super.write('\t');
-      }
+    if (!newLine || c != '\n'){
+      super.write(c);
+    }
+
+
+    if (c == '\r' || c == '\n' && !newLine ){
+      String num = String.valueOf(numberOfLine++);
+      super.write(num,0,num.length());
+      super.write('\t');
+      newLine = true;
+    }
+    else{
+      newLine = false;
+    }
   }
 
 }
