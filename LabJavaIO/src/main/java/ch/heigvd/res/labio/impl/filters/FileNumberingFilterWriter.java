@@ -28,8 +28,6 @@ public class FileNumberingFilterWriter extends FilterWriter {
 
   @Override
   public void write(String str, int off, int len) throws IOException {
-    //super.write(numberOfLine++ + 48);
-   //  super.write('\t');
     write(str.toCharArray(),off,len);
   }
 
@@ -44,20 +42,23 @@ public class FileNumberingFilterWriter extends FilterWriter {
   public void write(int c) throws IOException {
 
     if(numberOfLine == 1){
-      super.write(numberOfLine++ + 48);
+      super.write('1');
       super.write('\t');
+      numberOfLine++;
     }
 
-    if (!newLine || c != '\n'){
-      super.write(c);
+    if(c == '\r'){
+      newLine = true;
     }
-
+  // j'arrive pas...
+  if (!newLine || c != '\n'){
+    super.write(c);
+  }
 
     if (c == '\r' || c == '\n' && !newLine ){
       String num = String.valueOf(numberOfLine++);
       super.write(num,0,num.length());
       super.write('\t');
-      newLine = true;
     }
     else{
       newLine = false;
