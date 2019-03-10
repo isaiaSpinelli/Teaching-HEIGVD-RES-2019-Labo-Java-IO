@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class FileNumberingFilterWriter extends FilterWriter {
 
   private int numberOfLine = 1;
-  private boolean newLine = false;
+  private boolean charBackSlashR = false;
 
   private static final Logger LOG = Logger.getLogger(FileNumberingFilterWriter.class.getName());
 
@@ -37,32 +37,41 @@ public class FileNumberingFilterWriter extends FilterWriter {
       write(cbuf[i]);
     }
   }
+ // Permet d'écrire le numéro de la ligne
+  private void writeNumberOfLine() throws IOException {
+    String num = String.valueOf(numberOfLine++);
+    super.write(num,0,num.length());
+    super.write('\t');
+  }
 
   @Override
   public void write(int c) throws IOException {
 
     if(numberOfLine == 1){
-      super.write('1');
-      super.write('\t');
-      numberOfLine++;
+      writeNumberOfLine();
+      super.write(c);
+    }
+    else {
+      if (c == '\n'){
+        super.write(c);
+        writeNumberOfLine();
+      } else if ( charBackSlashR &&  c != '\n'){
+        writeNumberOfLine();
+        super.write(c);
+      }
+      else{
+        super.write(c);
+      }
     }
 
     if(c == '\r'){
-      newLine = true;
-    }
-  // j'arrive pas...
-  if (!newLine || c != '\n'){
-    super.write(c);
-  }
-
-    if (c == '\r' || c == '\n' && !newLine ){
-      String num = String.valueOf(numberOfLine++);
-      super.write(num,0,num.length());
-      super.write('\t');
+      charBackSlashR = true;
     }
     else{
-      newLine = false;
+      charBackSlashR = false;
     }
+
+
   }
 
 }
