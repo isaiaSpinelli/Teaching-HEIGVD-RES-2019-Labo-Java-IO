@@ -125,9 +125,9 @@ public class Application implements IApplication {
   void storeQuote(Quote quote, String filename) throws IOException {
     String chemin = (WORKSPACE_DIRECTORY);
     for(int i =0; i < quote.getTags().size(); ++i){
-      chemin.concat( "/" + quote.getTags().get(i));
+      chemin +=( "/" + quote.getTags().get(i));
     }
-    chemin.concat("/" + filename) ;
+    chemin += ("/" + filename) ;
 
     File f = new File(chemin);
 
@@ -153,6 +153,8 @@ public class Application implements IApplication {
          * of the the IFileVisitor interface inline. You just have to add the body of the visit method, which should
          * be pretty easy (we want to write the filename, including the path, to the writer passed in argument).
          */
+
+
       }
     });
   }

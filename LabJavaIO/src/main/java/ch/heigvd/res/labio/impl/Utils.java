@@ -23,7 +23,7 @@ public class Utils {
 
     String[] resultat = {"",lines};
     String separateur;
-    
+
     if (lines.contains("\r\n")) {
       separateur = "\r\n";
     }
