@@ -55,12 +55,12 @@ public class FileNumberingFilterWriter extends FilterWriter {
       if (c == '\n'){
         super.write(c);
         writeNumberOfLine();
-      } else if ( charBackSlashR &&  c != '\n'){
-        writeNumberOfLine();
-        super.write(c);
       }
       else{
-        super.write(c);
+          if (charBackSlashR){
+              writeNumberOfLine();
+          }
+          super.write(c);
       }
     }
 
