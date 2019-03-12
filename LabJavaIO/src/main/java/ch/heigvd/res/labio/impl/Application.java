@@ -133,7 +133,8 @@ public class Application implements IApplication {
 
     f.getParentFile().mkdirs();
 
-    BufferedWriter writer = new BufferedWriter(new FileWriter(chemin));
+    OutputStreamWriter writer = new OutputStreamWriter( new FileOutputStream( chemin ), "utf8");
+
     writer.write(quote.getQuote());
 
     writer.close();
@@ -156,10 +157,9 @@ public class Application implements IApplication {
         try {
             writer.write(file.getPath() + '\n');
         } catch (IOException e){
-
+            LOG.log(Level.SEVERE, "Error write file path in anonymous class visit", e.getMessage());
+            e.printStackTrace();
         }
-
-
       }
     });
   }
