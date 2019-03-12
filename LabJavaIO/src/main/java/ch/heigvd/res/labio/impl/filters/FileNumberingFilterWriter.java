@@ -37,12 +37,6 @@ public class FileNumberingFilterWriter extends FilterWriter {
       write(cbuf[i]);
     }
   }
- // Permet d'écrire le numéro de la ligne
-  private void writeNumberOfLine() throws IOException {
-    String num = String.valueOf(numberOfLine++);
-    super.write(num,0,num.length());
-    super.write('\t');
-  }
 
   @Override
   public void write(int c) throws IOException {
@@ -73,5 +67,12 @@ public class FileNumberingFilterWriter extends FilterWriter {
 
 
   }
+
+    // Permet d'écrire le numéro de la ligne
+    private void writeNumberOfLine() throws IOException {
+        String num = String.valueOf(numberOfLine++);
+        super.write(num,0,num.length());
+        super.write('\t');
+    }
 
 }
